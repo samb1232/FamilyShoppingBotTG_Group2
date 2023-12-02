@@ -1,7 +1,6 @@
 import telebot
-import keys as k
 from telebot import types
-bot = telebot.TeleBot(k.bot_key)
+bot = telebot.TeleBot('6232244287:AAE_XIknl1TVG8xL64-8ZkX9R95LS8OywYs')
 
 
 @bot.message_handler(commands=['start'])
