@@ -63,10 +63,13 @@ __pypackages__/
 
 # Environments
 .env
+.venv
 
 # PyCharm
 .idea/
 
 # Local files that i use as a playground
 local/
+
+# Secret file
 key.py

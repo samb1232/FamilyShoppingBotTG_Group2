@@ -12,6 +12,8 @@ def start_message(message):
     btn2 = types.KeyboardButton("Настройки⚙️")
     markup.add(btn1, btn2)
     bot.send_message(message.from_user.id, "Привет! Я семейный бот покупок.", reply_markup=markup)
+
+
 @bot.message_handler(content_types=['text'])
 def func(message):
     if message.text == "Список покупок✍️":
@@ -66,13 +68,6 @@ def func(message):
         markup.add(btn1, btn2)
         markup.add(back)
         bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
-
-
-
-
-
-
-
 
 
 bot.polling(none_stop=True, interval=0)
