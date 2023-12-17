@@ -8,13 +8,13 @@ bot = telebot.TeleBot(bot_key)
 @bot.message_handler(commands=['start'])
 def start_message(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1 = types.KeyboardButton("Список покупок")
-    btn2 = types.KeyboardButton("Настройки")
+    btn1 = types.KeyboardButton("Список покупок✍️")
+    btn2 = types.KeyboardButton("Настройки⚙️")
     markup.add(btn1, btn2)
     bot.send_message(message.from_user.id, "Привет! Я семейный бот покупок.", reply_markup=markup)
 @bot.message_handler(content_types=['text'])
 def func(message):
-    if message.text == "Список покупок":
+    if message.text == "Список покупок✍️":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Добавить покупку")
         btn2 = types.KeyboardButton("Очистить список❌")
@@ -24,14 +24,14 @@ def func(message):
         bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
     elif message.text == "Главное меню":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton("Список покупок")
-        btn2 = types.KeyboardButton("Настройки")
+        btn1 = types.KeyboardButton("Список покупок✍️")
+        btn2 = types.KeyboardButton("Настройки⚙️")
         markup.add(btn1, btn2)
         bot.send_message(message.from_user.id, "Привет! Я семейный бот покупок.", reply_markup=markup)
-    elif message.text == "Настройки":
+    elif message.text == "Настройки⚙️":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Семья")
-        btn2 = types.KeyboardButton("Оповещения")
+        btn2 = types.KeyboardButton("Оповещения") #через оповещения можно реализовать напоминания о покупке
         back = types.KeyboardButton('Главное меню')
         markup.add(btn1, btn2)
         markup.add(back)
@@ -50,6 +50,22 @@ def func(message):
         markup.add(btn1, btn2)
         markup.add(back)
         bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
+    elif message.text == "Да":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("Добавить покупку")
+        btn2 = types.KeyboardButton("Очистить список❌")
+        back = types.KeyboardButton("Главное меню")
+        markup.add(btn1, btn2)
+        markup.add(back)
+        bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
+    elif message.text == "Семья":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("Добавить покупку")
+        btn2 = types.KeyboardButton("Очистить список❌")
+        back = types.KeyboardButton("Главное меню")
+        markup.add(btn1, btn2)
+        markup.add(back)
+        bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
 
 
 
