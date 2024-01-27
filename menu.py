@@ -62,12 +62,12 @@ def func(message):
         bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
     elif message.text == "Семья":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton("Добавить покупку")
-        btn2 = types.KeyboardButton("Очистить список❌")
+        btn1 = types.KeyboardButton("Добавить члена семьи")
+        btn2 = types.KeyboardButton("Создать семью")
         back = types.KeyboardButton("Главное меню")
         markup.add(btn1, btn2)
         markup.add(back)
-        bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
+        bot.send_message(message.chat.id, text="Создать семью или добавить пользователя?", reply_markup=markup)
 
 
 bot.polling(none_stop=True, interval=0)
