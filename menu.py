@@ -58,7 +58,7 @@ def func(message):
         markup.add(btn1, btn2)
         markup.add(back)
         bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
-    elif message.text == "Да":
+    elif message.text == "Да": #TODO нужно сделать так, чтобы список покупок семьи очистился
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Добавить покупку")
         btn2 = types.KeyboardButton("Очистить список❌")
