@@ -1,15 +1,15 @@
 [tool.poetry]
 name = "familybot"
 version = "0.1.0"
-description = ""
-authors = []
+description = "Telegram bot for managing family purchases"
+authors = ["zzu1u", "danielium", "samb1232"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-telebot = "^0.0.5"
 sqlalchemy = "^2.0.23"
+pytelegrambotapi = "^4.15.4"
 
 
 [tool.poetry.dev-dependencies]
