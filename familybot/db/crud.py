@@ -29,13 +29,12 @@ def get_person_by_tg(tag: str) -> Person | None:
 
 # Purchases
 def get_family_purchases(family: Family) -> list[Purchase]:
-    with session_factory() as session:
-        purchases = []
+    purchases = []
 
-        for member in family.members:
-            purchases.insert(-1, member.added_purchases)
+    for member in family.members:
+        purchases.insert(-1, member.added_purchases)
 
-        return purchases
+    return purchases
 
 
 def insert_purchase(purchases: list[Purchase]) -> None:

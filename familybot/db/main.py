@@ -3,6 +3,8 @@ from familybot.db.models import Person
 
 create_tables()
 
+# TODO
+#
 me = Person(telegram_tag='gelbal', name='Gleb')
 
 insert_persons([me])
