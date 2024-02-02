@@ -73,7 +73,7 @@ def func(message):
         bot.send_message(message.chat.id, text=f"Уникальный идентификатор семьи: {identificator}", reply_markup=markup)
     elif message.text == "Добавиться в семью":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        bot.send_message(message.from_user.id, "Введите уникальный идентификатор семьи, в которую хотите добавиться", reply_markup=markup)
+        bot.send_message(message.from_user.id, "Введите уникальный идентификатор семьи, в которую хотите добавиться", reply_markup=markup) #TODO при вводе уникального идентификатора, пользователь добавляется в нужную семью
     elif message.text == "Создать семью":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton("Главное меню")
