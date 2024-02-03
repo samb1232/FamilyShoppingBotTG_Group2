@@ -37,14 +37,14 @@ def start_message(message):
 @bot.message_handler(content_types=['text'])
 def func(message):
     match message.text:
-        case 'Список покупок':
-            bot.send_message(message.chat.id,
-                             text="Ваш список покупок:",
-                             reply_markup=gen_markup([
-                                                    'Добавить покупку',
-                                                    'Очистить список',
-                                                    'Главное меню'
-                             ]))
+        case 'Список покупок✍️':
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = KeyboardButton("Добавить покупку")
+            btn2 = KeyboardButton("Очистить список❌")
+            back = KeyboardButton("Главное меню")
+            markup.add(btn1, btn2)
+            markup.add(back)
+            bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
         case "Главное меню":
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             btn1 = KeyboardButton("Список покупок✍️")
@@ -54,7 +54,7 @@ def func(message):
         case "Настройки⚙️":
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             btn1 = KeyboardButton("Семья")
-            btn2 = KeyboardButton("Оповещения")  # через оповещения можно реализовать напоминания о покупке, либо можно бросить это дело
+            btn2 = KeyboardButton("Оповещения")  #TODO через оповещения можно реализовать напоминания о покупке, либо можно бросить это дело (??)
             back = KeyboardButton('Главное меню')
             markup.add(btn1, btn2)
             markup.add(back)
