@@ -73,7 +73,7 @@ def func(message):
             markup.add(btn1, btn2)
             markup.add(back)
             bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
-        case "Да": #TODO функция очистки списка покупок
+        case "Да": #TODO функция очистки списка покупок.
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             btn1 = KeyboardButton("Добавить покупку")
             btn2 = KeyboardButton("Очистить список❌")
