@@ -1,10 +1,16 @@
 import telebot
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup
-from key import bot_key
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+bot_key = os.environ.get("BOT_KEY")
 
 bot = telebot.TeleBot(bot_key)
 
 in_family = False  # TODO если in_family = False, то при начале общения с ботом появляется кнопка "Добавиться в семью" и "Создать семью", нужно реализовать проверку на 'состоит ли пользователь в семье'
+
 identificator = 'aaa'  # TODO реализовать генерацию уникального идентификатора для каждой семьи
 
 
