@@ -7,9 +7,10 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 sqlalchemy = "^2.0.23"
 pytelegrambotapi = "^4.15.4"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.dev-dependencies]
