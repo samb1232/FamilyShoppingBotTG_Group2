@@ -8,10 +8,10 @@ load_dotenv(find_dotenv())
 
 sync_engine = create_engine(
     url=os.environ.get("DB_URL"),
-    echo=False
+#    echo=True
 )
 
-session_factory = sessionmaker(sync_engine)
+session_factory = sessionmaker(sync_engine, expire_on_commit=False)
 
 
 class Base(DeclarativeBase):

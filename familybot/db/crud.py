@@ -51,6 +51,12 @@ def insert_purchase(purchases: list[Purchase]) -> None:
         session.commit()
 
 
-# Family
-def create_family(host: Person) -> None:
-    pass
+def get_all_purchases() -> list[Purchase]:
+    with session_factory() as session:
+        return session.query(Purchase).all()
+
+
+# Families
+def get_all_families() -> list[Family]:
+    with session_factory() as session:
+        return session.query(Family).all()
