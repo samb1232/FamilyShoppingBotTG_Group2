@@ -54,7 +54,7 @@ def func(message):
         case "Настройки⚙️":
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             btn1 = KeyboardButton("Семья")
-            btn2 = KeyboardButton("Оповещения")  #TODO через оповещения можно реализовать напоминания о покупке, либо можно бросить это дело (??)
+            btn2 = KeyboardButton("Инструкция")
             back = KeyboardButton('Главное меню')
             markup.add(btn1, btn2)
             markup.add(back)
@@ -94,6 +94,15 @@ def func(message):
             btn1 = KeyboardButton("Главное меню")
             markup.add(btn1)
             bot.send_message(message.from_user.id, "Вы успешно создали семью!\nПосмотреть уникальный идентификатор семьи, чтобы добавить других участников, вы можете в настройках ",reply_markup=markup)
+        case "Инструкция":
+            markup = ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1 = KeyboardButton("Главное меню")
+            markup.add(btn1)
+            bot.send_message(message.from_user.id,"✔️Чтобы добавить покупку перейдите в главное меню => добавить покупку => введите покупку\n\n"
+                                                  "✔️Чтобы удалить купленные товары, нажмите на соответствующий товар или очистите список целиком\n\n"
+                                                  "✔️Чтобы добавить нового члена семьи, сообщите ему уникальный идентификатор, взяв его из настроек => семья",reply_markup=markup)
+
+
         case _:
             # Ни один не сработал
             pass
