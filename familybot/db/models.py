@@ -1,50 +1,77 @@
-import enum
-from sqlalchemy import func, ForeignKey, String, Integer, Boolean, Float, Column, Enum, DateTime
-from sqlalchemy.orm import relationship
-from familybot.db.database import Base
+import datetime as dt
+from typing import Annotated, Optional
+from sqlalchemy import func, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column, Mapped
+from familybot.db.database import Base, session_factory
 
 
-class Measurement(enum.Enum):
-    count = 0
-    weight = 1
-    volume = 2
+intpk = Annotated[int, mapped_column(primary_key=True)]
+dtnow = Annotated[dt.datetime, mapped_column(server_default=func.now())]
 
 
 class Family(Base):
     __tablename__ = 'families'
-    id = Column(Integer, primary_key=True)
+    id: Mapped[intpk]
 
-    name = Column(String)
-    members = relationship('Person', backref='family', lazy='dynamic')
+    name: Mapped[str]
+    members: Mapped[list["Person"]] = relationship(back_populates="family", lazy='joined')
+
+    def __repr__(self):
+        return f'{self.name}: {self.members}'
+
+    def get_list(self):
+        purchases = []
+
+        for member in self.members:
+            purchases += member.added_purchases
+
+        return purchases
 
 
 class Person(Base):
     __tablename__ = 'persons'
-    id = Column(Integer, primary_key=True)
+    id: Mapped[intpk]
 
-    telegram_tag = Column(String)
-    name = Column(String)
+    telegram_tag: Mapped[str] = mapped_column(index=True, unique=True)
+    name: Mapped[str]
 
-    family_id = Column(Integer, ForeignKey('families.id'), nullable=True)
-    is_owner = Column(Boolean, default=False, nullable=True)
+    family_id: Mapped[int | None] = mapped_column(ForeignKey("families.id"))
+    family: Mapped[Optional["Family"]] = relationship(back_populates="members")
+    is_owner: Mapped[bool | None] = None
 
-    added_purchases = relationship('Purchase', backref='creator', lazy='dynamic')
+    purchases: Mapped[list["Purchase"]] = relationship(back_populates="creator", lazy='joined')
 
-    def __str__(self):
+    def __repr__(self):
         return f'{self.name} @{self.telegram_tag}'
+    
+    def create_family(self, name: str | None = None) -> Family:  # self is host
+        if name is None:
+            name = f'Семья {self.name}'
+
+        family = Family(name=name, members=[self])
+
+        with session_factory() as session:
+            session.add(family)
+            session.commit()
+
+        return family
 
 
 class Purchase(Base):
     __tablename__ = 'purchases'
-    id = Column(Integer, primary_key=True)
+    id: Mapped[intpk]
 
-    product_name = Column(String)
-    amount = Column(Float)  # Maybe all nullable, except name?
-    #  measurement = Column(Enum(Measurement))
-    unit_price = Column(Float)
+    product_name: Mapped[str]
+    amount: Mapped[float | None] = None
+    #  measurement: Mapped[Enum(Measurement)]
+    unit_price: Mapped[float | None] = None
 
-    is_done = Column(Boolean, default=False)
-    creator_id = Column(Integer, ForeignKey('persons.id'))
-    created_at = Column(DateTime, server_default=func.now())
+    is_done: Mapped[bool] = False
+    creator_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
+    creator: Mapped["Person"] = relationship(back_populates="purchases")
+    created_at: Mapped[dtnow]
 
-    deadline = Column(DateTime, nullable=True)
+    deadline: Mapped[dt.datetime | None] = None
+
+    def __repr__(self):
+        return f'{self.product_name}'

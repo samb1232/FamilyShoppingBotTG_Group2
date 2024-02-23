@@ -65,10 +65,11 @@ __pypackages__/
 # PyCharm
 .idea/
 
-# Local files that i use as a playground
+# Local files that I use as a playground | db
 local/
 
 # Environments
 .env
 .venv
+
 # Secret file
