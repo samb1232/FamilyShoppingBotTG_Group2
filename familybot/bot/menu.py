@@ -34,7 +34,6 @@ def start_message(message):
             ln = message.from_user.last_name
             fname = ' '.join([fn if fn else '', ln if ln else ''])
             insert_persons([Person(telegram_id=message.from_user.id, name=fname)])
-            print('New user', message.from_user.first_name + ' ' + message.from_user.last_name)
         btn1 = KeyboardButton("Добавиться в семью")
         btn2 = KeyboardButton("Создать семью")
         markup.add(btn1, btn2)
@@ -52,6 +51,11 @@ def func(message):
         bot.send_message(message.from_user.id, text='Сначала напишите /start !')
         return
     match message.text:
+        case "Добавить покупку":
+            markup = gen_markup(["Очистить список❌"])
+            markup = gen_markup(["Главное меню"])
+            purchase = message.text
+
         case 'Список покупок✍️':
             markup = gen_markup(["Добавить покупку", "Очистить список❌"])
             markup.add(KeyboardButton("Главное меню"))
