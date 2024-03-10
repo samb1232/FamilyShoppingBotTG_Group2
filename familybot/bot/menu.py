@@ -30,7 +30,10 @@ def start_message(message):
     person = get_person_by_tg(message.from_user.id)
     if person is None or person.family is None:
         if person is None:
-            insert_persons([Person(telegram_id=message.from_user.id, name=message.from_user.first_name + ' ' + message.from_user.last_name)])
+            fn = message.from_user.first_name
+            ln = message.from_user.last_name
+            fname = ' '.join([fn if fn else '', ln if ln else ''])
+            insert_persons([Person(telegram_id=message.from_user.id, name=fname)])
             print('New user', message.from_user.first_name + ' ' + message.from_user.last_name)
         btn1 = KeyboardButton("Добавиться в семью")
         btn2 = KeyboardButton("Создать семью")
@@ -44,6 +47,10 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def func(message):
+    person = get_person_by_tg(message.from_user.id)
+    if person is None:
+        bot.send_message(message.from_user.id, text='Сначала напишите /start !')
+        return
     match message.text:
         case 'Список покупок✍️':
             markup = gen_markup(["Добавить покупку", "Очистить список❌"])
