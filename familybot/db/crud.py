@@ -1,5 +1,5 @@
 # Create, read, update, delete! (orm queries)
-from sqlalchemy import inspect
+from sqlalchemy import inspect, exc
 from familybot.db.database import sync_engine, session_factory
 from familybot.db.models import *
 
@@ -11,13 +11,14 @@ def create_tables() -> None:
 
 
 def init_tables() -> bool:  # Returns False if tables don't exist
-    if not inspect(sync_engine).has_table("clients") or \
-            not inspect(sync_engine).has_table("purchases") or \
-            not inspect(sync_engine).has_table("notes"):
-        create_tables()
-        return False
+    if inspect(sync_engine).has_table("families") or \
+            inspect(sync_engine).has_table("purchases") or \
+            inspect(sync_engine).has_table("persons"):
+        return True
 
-    return True
+    create_tables()
+
+    return False
 
 
 # Persons
@@ -35,12 +36,15 @@ def get_all_persons() -> list[Person]:
 
 def get_person_by_tg(tag: str) -> Person | None:
     with session_factory() as session:
-        return session.query(Person).where(Person.telegram_tag == tag).one()
+        try:
+            return session.query(Person).where(Person.telegram_id == tag).one()
+        except exc.NoResultFound as err:
+            return None
     
 
-def get_person_by_id(id: int) -> Person:
+def get_person_by_id(pid: int) -> Person:
     with session_factory() as session:
-        return session.query(Person).get(id)
+        return session.query(Person).get(pid)
 
 
 # Purchases

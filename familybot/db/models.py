@@ -17,7 +17,7 @@ class Family(Base):
     members: Mapped[list["Person"]] = relationship(back_populates="family", lazy='joined')
 
     def __repr__(self):
-        return f'{self.name}: {self.members}'
+        return f'<Family> {self.name}: {self.members}'
 
     def get_list(self):
         purchases = []
@@ -27,22 +27,26 @@ class Family(Base):
 
         return purchases
 
+    def clean_purchases(self):
+        for member in self.members:
+            member.clean_purchases()
+
 
 class Person(Base):
     __tablename__ = 'persons'
     id: Mapped[intpk]
 
-    telegram_tag: Mapped[str] = mapped_column(index=True, unique=True)
+    telegram_id: Mapped[str] = mapped_column(index=True, unique=True)
     name: Mapped[str]
 
     family_id: Mapped[int | None] = mapped_column(ForeignKey("families.id"))
-    family: Mapped[Optional["Family"]] = relationship(back_populates="members")
+    family: Mapped[Optional["Family"]] = relationship(back_populates="members", lazy='joined')
     is_owner: Mapped[bool | None] = None
 
     purchases: Mapped[list["Purchase"]] = relationship(back_populates="creator", lazy='joined')
 
     def __repr__(self):
-        return f'{self.name} @{self.telegram_tag}'
+        return f'<Person> {self.name} ({self.telegram_id})'
     
     def create_family(self, name: str | None = None) -> Family:  # self is host
         if name is None:
@@ -56,22 +60,22 @@ class Person(Base):
 
         return family
 
+    def clean_purchases(self):
+        self.purchases[:] = []
+
 
 class Purchase(Base):
     __tablename__ = 'purchases'
     id: Mapped[intpk]
 
-    product_name: Mapped[str]
-    amount: Mapped[float | None] = None
-    #  measurement: Mapped[Enum(Measurement)]
-    unit_price: Mapped[float | None] = None
+    text: Mapped[str]
 
     is_done: Mapped[bool] = False
     creator_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
-    creator: Mapped["Person"] = relationship(back_populates="purchases")
+    creator: Mapped["Person"] = relationship(back_populates="purchases", lazy='joined')
     created_at: Mapped[dtnow]
 
     deadline: Mapped[dt.datetime | None] = None
 
     def __repr__(self):
-        return f'{self.product_name}'
+        return f'<Purchase> ({self.text}, {self.creator})'

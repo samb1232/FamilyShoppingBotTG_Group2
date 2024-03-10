@@ -13,10 +13,10 @@ me = get_person_by_tg('gelbal')
 dad = Person(telegram_tag='dad_tag', name='Dad')
 
 # Создаем объект продукта с привязкой к создателю
-chocolate = Purchase(product_name='Chocolate', amount=2, unit_price=13, creator=me)
+chocolate = Purchase(text='choco', creator=me)
 
-milk = Purchase(product_name='Milk', amount=0.2, unit_price=13, creator=dad)
-bread = Purchase(product_name='Bread', amount=2, unit_price=13, creator=dad)
+milk = Purchase(text='milk', creator=dad)
+bread = Purchase(text='bread', creator=dad)
 
 dad.purchases = [milk, bread]
 
@@ -38,3 +38,6 @@ me.family = dad.family
 insert_persons([me]) # Что бы обновить данные
 
 print(get_all_families())
+
+print(type(me.family))
+print(get_family_purchases(me.family))
