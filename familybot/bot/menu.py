@@ -38,66 +38,38 @@ def start_message(message):
 def func(message):
     match message.text:
         case 'Список покупок✍️':
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Добавить покупку")
-            btn2 = KeyboardButton("Очистить список❌")
-            back = KeyboardButton("Главное меню")
-            markup.add(btn1, btn2)
-            markup.add(back)
+            markup = gen_markup(["Добавить покупку", "Очистить список❌"])
+            markup.add(KeyboardButton("Главное меню"))
             bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
         case "Главное меню":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Список покупок✍️")
-            btn2 = KeyboardButton("Настройки⚙️")
-            markup.add(btn1, btn2)
+            markup = gen_markup(["Список покупок✍️", "Настройки⚙️"])
             bot.send_message(message.from_user.id, "Привет! Я семейный бот покупок.", reply_markup=markup)
         case "Настройки⚙️":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Семья")
-            btn2 = KeyboardButton("Инструкция")
-            back = KeyboardButton('Главное меню')
-            markup.add(btn1, btn2)
-            markup.add(back)
+            markup = gen_markup(["Семья", "Инструкция"])
+            markup.add(KeyboardButton('Главное меню'))
             bot.send_message(message.from_user.id, "Раздел настроек:", reply_markup=markup)
         case "Очистить список❌":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Да")
-            btn2 = KeyboardButton("Нет")
-            markup.add(btn1, btn2)
+            markup = gen_markup(["Да", "Нет"])
             bot.send_message(message.from_user.id, "Вы уверены, что хотите очистить список покупок?", reply_markup=markup)
         case "Нет":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Добавить покупку")
-            btn2 = KeyboardButton("Очистить список❌")
-            back = KeyboardButton("Главное меню")
-            markup.add(btn1, btn2)
-            markup.add(back)
+            markup = gen_markup(["Добавить покупку", "Очистить список❌"])
+            markup.add(KeyboardButton("Главное меню"))
             bot.send_message(message.chat.id, text="Ваш список покупок:", reply_markup=markup)
         case "Да": #TODO функция очистки списка покупок.
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Добавить покупку")
-            btn2 = KeyboardButton("Очистить список❌")
-            back = KeyboardButton("Главное меню")
-            markup.add(btn1, btn2)
-            markup.add(back)
+            markup = gen_markup(["Добавить покупку", "Очистить список❌"])
+            markup.add(KeyboardButton("Главное меню"))
             bot.send_message(message.chat.id, text="Ваш список покупок успешно очищен", reply_markup=markup)
         case "Семья":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            back = KeyboardButton("Главное меню")
-            markup.add(back)
+            markup = gen_markup(["Главное меню"])
             bot.send_message(message.chat.id, text=f"Уникальный идентификатор семьи: {identificator}", reply_markup=markup)
         case "Добавиться в семью":
             markup = ReplyKeyboardMarkup(resize_keyboard=True)
             bot.send_message(message.from_user.id, "Введите уникальный идентификатор семьи, в которую хотите добавиться", reply_markup=markup) #TODO при вводе уникального идентификатора, пользователь добавляется в нужную семью
         case "Создать семью":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Главное меню")
-            markup.add(btn1)
+            markup = gen_markup(["Главное меню"])
             bot.send_message(message.from_user.id, "Вы успешно создали семью!\nПосмотреть уникальный идентификатор семьи, чтобы добавить других участников, вы можете в настройках ",reply_markup=markup)
         case "Инструкция":
-            markup = ReplyKeyboardMarkup(resize_keyboard=True)
-            btn1 = KeyboardButton("Главное меню")
-            markup.add(btn1)
+            markup = gen_markup(["Главное меню"])
             bot.send_message(message.from_user.id,"✔️Чтобы добавить покупку перейдите в главное меню => добавить покупку => введите покупку в чат\n\n"
                                                   "✔️Чтобы удалить купленные товары, нажмите на соответствующий товар или очистите список целиком\n\n"
                                                   "✔️Чтобы добавить нового члена семьи, сообщите ему уникальный идентификатор, взяв его из настроек => семья",reply_markup=markup)
