@@ -23,6 +23,10 @@ def gen_markup(btns: list[str]):
     return markup
 
 
+def write_purchase(message):
+    print(message.text)
+
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
@@ -52,9 +56,8 @@ def func(message):
         return
     match message.text:
         case "Добавить покупку":
-            markup = gen_markup(["Очистить список❌"])
-            markup = gen_markup(["Главное меню"])
-            purchase = message.text
+            sent = bot.send_message(message.from_user.id, 'Пиши')
+            bot.register_next_step_handler(sent, write_purchase)
 
         case 'Список покупок✍️':
             markup = gen_markup(["Добавить покупку", "Очистить список❌"])
